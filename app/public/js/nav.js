@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <a href="/">Accueil</a>
                     <!--<a href="/profile">Profil</a>-->
                     <!--<a href="/admin">Admin</a>-->
-                    <!--<a href="/login">Connexion</a>-->
+                    <a href="/login">Connexion</a>
                     <!--<a href="/register">Inscription</a>-->
                 </nav>
             </div>

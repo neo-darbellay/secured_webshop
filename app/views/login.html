@@ -1,29 +1,98 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Secure Shop - Connexion</title>
-    <link rel="stylesheet" href="/css/main.css">
-</head>
-<body>
+    <link rel="stylesheet" href="/css/main.css" />
+  </head>
+  <body>
     <div id="topbar"></div>
 
     <main>
-        <section class="hero">
-            <div class="container">
-                <h1>Connexion</h1>
-                <p>Placer un formulaire de connexion ici</p>
+      <section class="hero">
+        <div class="container">
+          <h1>Connexion</h1>
+        </div>
+
+        <div class="login-card">
+          <form id="login-form" action="/api/auth/login" method="POST">
+            <div class="form-group">
+              <label for="email">Adresse email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                placeholder="ex: utilisateur@email.com"
+              />
             </div>
-        </section>
+
+            <div class="form-group">
+              <label for="password">Mot de passe</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                required
+                placeholder="••••••••"
+              />
+            </div>
+
+            <button type="submit" class="login-btn">Se connecter</button>
+
+            <p class="register-link">
+              Pas de compte ? <a href="/register">Créer un compte</a>
+            </p>
+          </form>
+        </div>
+      </section>
     </main>
 
     <footer id="contact" class="footer">
-        <div class="container">
-            <p>Projet pedagogique - ETML 183</p>
-        </div>
+      <div class="container">
+        <p>Projet pedagogique - ETML 183</p>
+      </div>
     </footer>
 
     <script src="/js/nav.js"></script>
-</body>
+    <script type="module">
+      const handleSubmit = (event) => {
+        // Empêche le formulaire de se soumettre normalement
+        event.preventDefault();
+
+        // Récupère les données du formulaire
+        const formData = new FormData(event.target);
+
+        // Séparer les champs email et password
+        const email = formData.get("email");
+        const password = formData.get("password");
+
+        // Faire un POST sur /api/auth/login avec les données du formulaire
+        fetch("/api/auth/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        })
+          .then((response) => {
+            if (response.ok) {
+              window.location.href = "/";
+            } else {
+              alert("Email ou mot de passe incorrect.");
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+            alert("Erreur serveur");
+          });
+      };
+
+      // Ajouter l'écouteur d'événement pour le formulaire de connexion
+      document
+        .getElementById("login-form")
+        .addEventListener("submit", handleSubmit);
+    </script>
+  </body>
 </html>
