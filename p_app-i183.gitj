@@ -4,5 +4,16 @@
   "branch": "main",
   "me": "neo-darbellay",
   "journalStartDate": null,
-  "exceptions": []
+  "exceptions": [
+    {
+      "id": "58e907ea-8406-4010-bf81-d9f3c0355d4c",
+      "type": "commitless",
+      "name": "learn(Projet) & chore(setup)",
+      "description": "Début du projet, explications, puis setup de l'environnement de dev",
+      "date": "2026-03-18T10:28:00.000Z",
+      "duration": 28,
+      "status": "Done",
+      "author": "neo-darbellay"
+    }
+  ]
 }
