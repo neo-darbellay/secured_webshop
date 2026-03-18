@@ -1,31 +1,72 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Secure Shop - Inscription</title>
-    <link rel="stylesheet" href="/css/main.css">
-</head>
-<body>
+    <link rel="stylesheet" href="/css/main.css" />
+  </head>
+  <body>
     <div id="topbar"></div>
 
     <main>
-        <section class="hero">
-            <div class="container">
-                <h1>Inscription</h1>
+      <section class="hero">
+        <div class="container">
+          <h1>Inscription</h1>
+        </div>
 
-                <p>Placer un formulaire d'inscription ici</p>
-
+        <div class="login-card">
+          <form id="register-form" action="/api/auth/register" method="POST">
+            <div class="form-group">
+              <label for="username">Nom d'utilisateur</label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                required
+                placeholder="ex: SuperBob33000"
+              />
             </div>
-        </section>
+
+            <div class="form-group">
+              <label for="email">Adresse email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                placeholder="ex: utilisateur@email.com"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="password">Mot de passe</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                required
+                placeholder="••••••••"
+              />
+            </div>
+
+            <button type="submit" class="login-btn">S'inscrire</button>
+
+            <p class="register-link">
+              Déjà un compte ? <a href="/login">Se connecter</a>
+            </p>
+          </form>
+        </div>
+      </section>
     </main>
 
     <footer id="contact" class="footer">
-        <div class="container">
-            <p>Projet pedagogique - ETML 183</p>
-        </div>
+      <div class="container">
+        <p>Projet pedagogique - ETML 183</p>
+      </div>
     </footer>
 
     <script src="/js/nav.js"></script>
-</body>
+    <script src="/js/AuthManager.js"></script>
+  </body>
 </html>

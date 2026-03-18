@@ -56,43 +56,6 @@
     </footer>
 
     <script src="/js/nav.js"></script>
-    <script type="module">
-      const handleSubmit = (event) => {
-        // Empêche le formulaire de se soumettre normalement
-        event.preventDefault();
-
-        // Récupère les données du formulaire
-        const formData = new FormData(event.target);
-
-        // Séparer les champs email et password
-        const email = formData.get("email");
-        const password = formData.get("password");
-
-        // Faire un POST sur /api/auth/login avec les données du formulaire
-        fetch("/api/auth/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, password }),
-        })
-          .then((response) => {
-            if (response.ok) {
-              window.location.href = "/";
-            } else {
-              alert("Email ou mot de passe incorrect.");
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-            alert("Erreur serveur");
-          });
-      };
-
-      // Ajouter l'écouteur d'événement pour le formulaire de connexion
-      document
-        .getElementById("login-form")
-        .addEventListener("submit", handleSubmit);
-    </script>
+    <script src="/js/AuthManager.js"></script>
   </body>
 </html>
