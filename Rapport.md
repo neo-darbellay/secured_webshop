@@ -43,6 +43,8 @@ Cela a été simple, car j'ai seulement eu besoin de mettre "+ PEPPER" (PEPPER i
 
 Cela a été simple, car j'avais déjà vu un exemple de Query Builder dans un exercice précédent et j'ai su le recréer.
 
+### 7. Implémenter l'utilisation d'un token JWT
+
 ## Activitées Faciles
 
 ## Activitées Moyennes

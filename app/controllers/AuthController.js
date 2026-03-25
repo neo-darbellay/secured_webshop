@@ -1,5 +1,6 @@
 const argon2 = require("argon2");
 const db = require("../config/db");
+const jwt = require("jsonwebtoken");
 
 const pepper = process.env.PEPPER;
 
@@ -48,7 +49,12 @@ module.exports = {
             .json({ error: "Email ou mot de passe incorrect" });
         }
 
-        res.json({ message: "Connexion réussie" });
+        // Créer un JWT d'authentication
+        const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+          expiresIn: "1h",
+        });
+
+        res.json({ token: token });
       } catch (err) {
         return res.status(500).json({ error: err.message });
       }

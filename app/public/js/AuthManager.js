@@ -19,6 +19,11 @@ const handleLogin = (event) => {
   })
     .then((response) => {
       if (response.ok) {
+        // Ajouter le JWT d'authentication en tant que cookie
+        if (response.json() && response.json().token) {
+          document.cookie = `token=${response.json().token}; path=/; secure; HttpOnly`;
+        }
+
         window.location.href = "/";
       } else {
         alert("Email ou mot de passe incorrect.");
@@ -59,7 +64,13 @@ const handleRegister = (event) => {
     });
 };
 
-document.getElementById("login-form").addEventListener("submit", handleLogin);
-document
-  .getElementById("register-form")
-  .addEventListener("submit", handleRegister);
+const loginForm = document.getElementById("login-form");
+const registerForm = document.getElementById("register-form");
+
+if (loginForm) {
+  loginForm.addEventListener("submit", handleLogin);
+}
+
+if (registerForm) {
+  registerForm.addEventListener("submit", handleRegister);
+}
