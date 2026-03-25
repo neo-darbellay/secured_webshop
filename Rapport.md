@@ -7,12 +7,12 @@ Pour cela, nous avons reçu le code source du WebShop et devons le modifier en i
 En plus de ces étapes, nous devons atteindre un total de 15 points (ou plus) pour valider le projet.  
 Ces activités sont réparties comme suit :
 
-| Activitée    | Point(s) par tâche |
-| ------------ | ------------------ |
-| Obligatoires | 1                  |
-| Faciles      | 1                  |
-| Moyennes     | 2                  |
-| Difficiles   | 3                  |
+| Activitée    | Point(s) par tâche | Total de tâches dans l'activitée |
+| ------------ | ------------------ | -------------------------------- |
+| Obligatoires | 1                  | 8                                |
+| Faciles      | 1                  | 6                                |
+| Moyennes     | 2                  | 6                                |
+| Difficiles   | 3                  | 5                                |
 
 Les prochains chapitres serviront à expliquer chaque étape de la réalisation de ce projet et la dernière sera une conclusion aussi bien du projet qu'une personelle.
 
@@ -38,6 +38,10 @@ Ceci a été fait pendant l'étape précédente, car j'ai utilisé argon2.
 ### 5. Ajouter un poivre
 
 Cela a été simple, car j'ai seulement eu besoin de mettre "+ PEPPER" (PEPPER ici étant la valeur du .env) à chaque fois qu'AuthController utilisait "password"
+
+### 6. Corriger les requêtes existantes afin de prévenir l'injection SQL
+
+Cela a été simple, car j'avais déjà vu un exemple de Query Builder dans un exercice précédent et j'ai su le recréer.
 
 ## Activitées Faciles
 

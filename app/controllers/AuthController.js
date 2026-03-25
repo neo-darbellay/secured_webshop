@@ -20,9 +20,9 @@ module.exports = {
       return res.status(400).json({ error: "Email et mot de passe requis" });
     }
 
-    const query = `SELECT * FROM users WHERE email = '${email}'`;
+    const query = `SELECT * FROM users WHERE email = ?`;
 
-    db.query(query, async (err, results) => {
+    db.query(query, [email], async (err, results) => {
       if (err) {
         return res.status(500).json({ error: err.message, query: query });
       }
@@ -68,9 +68,9 @@ module.exports = {
     try {
       const hashedPassword = await hashPassword(password);
 
-      const query = `INSERT INTO users (username, email, password) VALUES ('${username}', '${email}', '${hashedPassword}')`;
+      const query = `INSERT INTO users (username, email, password) VALUES (?, ?, ?)`;
 
-      db.query(query, (err) => {
+      db.query(query, [username, email, hashedPassword], (err) => {
         if (err) {
           return res.status(500).json({ error: err.message, query: query });
         }
