@@ -1,8 +1,12 @@
 const argon2 = require("argon2");
 const db = require("../config/db");
 
+const pepper = process.env.PEPPER;
+
 async function hashPassword(password) {
-  return await argon2.hash(password);
+  const concat = `${password}${pepper}`;
+
+  return await argon2.hash(concat);
 }
 
 module.exports = {
@@ -33,9 +37,18 @@ module.exports = {
 
       // Vérifier le mot de passe avec argon2
       try {
-        const passwordMatches = await argon2.verify(user.password, password);
+        const passwordMatches = await argon2.verify(
+          user.password,
+          `${password}${pepper}`,
+        );
 
-        res.json({ message: "Connexion réussie", user: user });
+        if (!passwordMatches) {
+          return res
+            .status(401)
+            .json({ error: "Email ou mot de passe incorrect" });
+        }
+
+        res.json({ message: "Connexion réussie" });
       } catch (err) {
         return res.status(500).json({ error: err.message });
       }

@@ -14,6 +14,19 @@
       "duration": 28,
       "status": "Done",
       "author": "neo-darbellay"
+    },
+    {
+      "id": "cd74ca53-24c8-444b-9eeb-bb40c98c3ecd",
+      "type": "commitpatch",
+      "sha": "c97f9dce34717099e6f6a259cfce87391d05fd44",
+      "url": "https://github.com/neo-darbellay/secured_webshop/commit/c97f9dce34717099e6f6a259cfce87391d05fd44",
+      "name": "feat(Étape 3 et 4): Remplacer les mots de passes en clair dans la base par un hash + Ajouter un sel",
+      "description": "J'ai du passer de bcrypt à argon2",
+      "date": "2026-03-25T10:31:00.000Z",
+      "duration": 42,
+      "status": "Done",
+      "author": "neo-darbellay",
+      "patch": true
     }
   ]
 }

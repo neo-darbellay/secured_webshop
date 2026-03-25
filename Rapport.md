@@ -31,6 +31,14 @@ La procédure de cette étape s'est déroulée comme la précédente, à la diff
 
 Pour cela, j'ai effacé tous les utilisateurs de la base de données, puis je les ai recréés en veillant à ce que la création de compte fonctionne et que le hachage soit correct.
 
+### 4. Ajouter un sel
+
+Ceci a été fait pendant l'étape précédente, car j'ai utilisé argon2.
+
+### 5. Ajouter un poivre
+
+Cela a été simple, car j'ai seulement eu besoin de mettre "+ PEPPER" (PEPPER ici étant la valeur du .env) à chaque fois qu'AuthController utilisait "password"
+
 ## Activitées Faciles
 
 ## Activitées Moyennes
