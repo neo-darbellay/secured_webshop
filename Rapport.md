@@ -27,6 +27,10 @@ Celle-ci redirige ensuite l'utilisateur vers la page d'accueil si l'authentifica
 
 La procédure de cette étape s'est déroulée comme la précédente, à la différence que j'ai déplacé les fonctions dans un fichier JavaScript utilisé par les deux pages.
 
+### 3. Remplacer les mots de passes en clair dans la base par un hash
+
+Pour cela, j'ai effacé tous les utilisateurs de la base de données, puis je les ai recréés en veillant à ce que la création de compte fonctionne et que le hachage soit correct.
+
 ## Activitées Faciles
 
 ## Activitées Moyennes

@@ -1,12 +1,13 @@
 {
-  "name": "mon_application",
+  "name": "secured_webshop",
   "version": "1.0.0",
-  "description": "Une application Node.js",
+  "description": "Un magasin en ligne sécurisé avec Express.js, MySQL et Multer pour la gestion des produits et des images.",
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js -L"
   },
   "dependencies": {
+    "argon2": "^0.44.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.1",
     "multer": "^1.4.5-lts.1",
