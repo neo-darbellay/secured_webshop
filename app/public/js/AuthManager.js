@@ -47,8 +47,7 @@ const handleRegister = (event) => {
   })
     .then((response) => {
       if (response.ok) {
-        alert("Compte créé avec succès !");
-        window.location.href = "/login.html";
+        window.location.href = "/profile";
       } else {
         alert("Erreur lors de l'inscription. Vérifiez vos informations.");
       }

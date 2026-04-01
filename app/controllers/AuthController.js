@@ -57,12 +57,14 @@ module.exports = {
             expiresIn: "1h",
           },
         );
+
         res.cookie("token", token, {
           httpOnly: true,
           secure: process.env.NODE_ENV === "production",
           sameSite: "lax",
           maxAge: 60 * 60 * 1000, // 60 minutes en milisecondes (J'aurai pu mettre 3600000 ms, mais c'est moins lisible)
         });
+
         res.json({ message: "Connexion réussie" });
       } catch (err) {
         return res.status(500).json({ error: err.message });
@@ -85,10 +87,29 @@ module.exports = {
 
       const query = `INSERT INTO users (username, email, password) VALUES (?, ?, ?)`;
 
-      db.query(query, [username, email, hashedPassword], (err) => {
+      db.query(query, [username, email, hashedPassword], (err, results) => {
         if (err) {
           return res.status(500).json({ error: err.message, query: query });
         }
+
+        // Récupérer l'ID de l'utilisateur inséré
+        const userId = results.insertId;
+
+        // Créer un JWT d'authentication
+        const token = jwt.sign(
+          { userId: userId, role: "user", username: username },
+          process.env.JWT_SECRET,
+          {
+            expiresIn: "1h",
+          },
+        );
+
+        res.cookie("token", token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "lax",
+          maxAge: 60 * 60 * 1000, // 60 minutes en milisecondes (J'aurai pu mettre 3600000 ms, mais c'est moins lisible)
+        });
 
         res.json({ message: "Utilisateur créé" });
       });
