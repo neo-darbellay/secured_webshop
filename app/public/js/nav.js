@@ -1,3 +1,42 @@
+// Fonction pour rafraîchir le token automatiquement
+async function refreshToken() {
+  try {
+    // Envoyer une requête AVEC les cookies
+    const res = await fetch("/api/auth/refresh", {
+      method: "POST",
+    });
+
+    if (res.ok) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    console.error("Erreur refresh:", err);
+    return false;
+  }
+}
+
+// un simple fetch, mais qui tente de rafraîchir le token si le token est expiré
+async function fetchWithRefresh(url, options = {}) {
+  // Toujours envoyer les cookies
+  options.credentials = "include";
+
+  let res = await fetch(url, options);
+
+  // Si token expiré (401)
+  if (res.status === 401) {
+    const refreshed = await refreshToken();
+
+    if (refreshed) {
+      // Réessayer la requête originale
+      res = await fetch(url, options);
+    }
+  }
+
+  return res;
+}
+
 // Navigation commune à toutes les pages
 // Pour modifier le menu, éditer uniquement ce fichier
 document.addEventListener("DOMContentLoaded", async () => {
@@ -14,20 +53,24 @@ document.addEventListener("DOMContentLoaded", async () => {
     window.location.href = "/login";
   };
 
-  try {
-    const res = await fetch("/api/auth/me");
+  async function checkAuth() {
+    const res = await fetchWithRefresh("/api/auth/me");
+
     if (res.ok) {
       const user = await res.json();
       loggedIn = true;
       isAdmin = user.role === "admin";
       userName = user.username;
+      updateNav();
+    } else {
+      loggedIn = false;
+      isAdmin = false;
+      updateNav();
     }
-  } catch (err) {
-    loggedIn = false;
-    isAdmin = false;
   }
 
-  nav.innerHTML = `
+  const updateNav = () => {
+    nav.innerHTML = `
         <header class="topbar">
             <div class="container">
                 <div class="brand">Secure Shop</div>
@@ -40,10 +83,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         </header>
     `;
 
-  const logoutLink = document.getElementById("logout-link");
-  if (logoutLink)
-    logoutLink.addEventListener("click", (e) => {
-      e.preventDefault();
-      handleLogout();
-    });
+    const logoutLink = document.getElementById("logout-link");
+    if (logoutLink)
+      logoutLink.addEventListener("click", (event) => {
+        event.preventDefault();
+        handleLogout();
+      });
+  };
+
+  checkAuth();
 });

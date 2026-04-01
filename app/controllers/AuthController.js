@@ -54,7 +54,7 @@ module.exports = {
           { userId: user.id, role: user.role, username: user.username },
           process.env.JWT_SECRET,
           {
-            expiresIn: "1h",
+            expiresIn: "15m",
           },
         );
 
@@ -62,7 +62,21 @@ module.exports = {
           httpOnly: true,
           secure: process.env.NODE_ENV === "production",
           sameSite: "lax",
-          maxAge: 60 * 60 * 1000, // 60 minutes en milisecondes (J'aurai pu mettre 3600000 ms, mais c'est moins lisible)
+          maxAge: 15 * 60 * 1000, // 15 minutes en milisecondes (J'aurai pu mettre 3600000 ms, mais c'est moins lisible)
+        });
+
+        // Créer un refresh token
+        const refreshToken = jwt.sign(
+          { userId: user.id, role: user.role, username: user.username },
+          process.env.REFRESH_TOKEN_SECRET,
+          { expiresIn: "7d" },
+        );
+
+        res.cookie("refreshToken", refreshToken, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "lax",
+          maxAge: 7 * 24 * 60 * 60 * 1000, // 7 jours en milisecondes (J * H * M * S * MS)
         });
 
         res.json({ message: "Connexion réussie" });
@@ -100,7 +114,7 @@ module.exports = {
           { userId: userId, role: "user", username: username },
           process.env.JWT_SECRET,
           {
-            expiresIn: "1h",
+            expiresIn: "15m",
           },
         );
 
@@ -108,7 +122,21 @@ module.exports = {
           httpOnly: true,
           secure: process.env.NODE_ENV === "production",
           sameSite: "lax",
-          maxAge: 60 * 60 * 1000, // 60 minutes en milisecondes (J'aurai pu mettre 3600000 ms, mais c'est moins lisible)
+          maxAge: 15 * 60 * 1000, // 15 minutes en milisecondes (J'aurai pu mettre 3600000 ms, mais c'est moins lisible)
+        });
+
+        // Créer un refresh token
+        const refreshToken = jwt.sign(
+          { userId: userId, role: "user", username: username },
+          process.env.REFRESH_TOKEN_SECRET,
+          { expiresIn: "7d" },
+        );
+
+        res.cookie("refreshToken", refreshToken, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "lax",
+          maxAge: 7 * 24 * 60 * 60 * 1000, // 7 jours en milisecondes (J * H * M * S * MS)
         });
 
         res.json({ message: "Utilisateur créé" });
@@ -127,6 +155,13 @@ module.exports = {
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
     });
+
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+    });
+
     res.json({ message: "Déconnecté" });
   },
 
@@ -143,4 +178,49 @@ module.exports = {
       username: req.user.username,
     });
   },
+
+  // ----------------------------------------------------------
+  // POST /api/auth/refresh
+  // ----------------------------------------------------------
+  refresh: (req, res) => {
+    console.log(req);
+    if (req.cookies.refreshToken) {
+      // Vérification du refresh token
+      const refreshToken = req.cookies.refreshToken;
+
+      jwt.verify(
+        refreshToken,
+        process.env.REFRESH_TOKEN_SECRET,
+        (err, payload) => {
+          if (err) {
+            return res.status(401).json({ error: "Refresh token invalide" });
+          } else {
+            // Création d'un nouveau token d'authentification
+            const newToken = jwt.sign(
+              {
+                userId: payload.userId,
+                role: payload.role,
+                username: payload.username,
+              },
+              process.env.JWT_SECRET,
+              { expiresIn: "15m" },
+            );
+
+            // Envoi du nouveau token dans un cookie
+            res.cookie("token", newToken, {
+              httpOnly: true,
+              secure: process.env.NODE_ENV === "production",
+              sameSite: "lax",
+              maxAge: 15 * 60 * 1000, // 15 minutes en milisecondes (J'aurai pu mettre 3600000 ms, mais c'est moins lisible)
+            });
+
+            res.json({ message: "Token rafraîchi" });
+          }
+        },
+      );
+    } else {
+      return res.status(401).json({ error: "Non authentifié" });
+    }
+  },
+  // ----------------------------------------------------------
 };

@@ -86,11 +86,13 @@
       // Chargement du profil au démarrage
       // ------------------------------------------------------------------
       async function loadProfile() {
-        const res = await fetch("/api/profile");
+        const res = await fetchWithRefresh("/api/profile");
+
         if (res.status === 401 || res.status === 403) {
           return (window.location.href = "/login");
         }
         if (!res.ok) return;
+
         const user = await res.json();
 
         document.getElementById("username").textContent = user.username;

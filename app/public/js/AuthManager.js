@@ -45,16 +45,17 @@ const handleRegister = (event) => {
     },
     body: JSON.stringify({ username, email, password }),
   })
-    .then((response) => {
+    .then(async (response) => {
       if (response.ok) {
         window.location.href = "/profile";
       } else {
-        alert("Erreur lors de l'inscription. Vérifiez vos informations.");
+        const error = await response.json();
+        alert("Erreur lors de l'inscription : " + error.error);
       }
     })
     .catch((error) => {
       console.error(error);
-      alert("Erreur serveur");
+      alert("Erreur serveur : " + error.message);
     });
 };
 
