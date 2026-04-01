@@ -41,14 +41,17 @@ Cela a été simple, car j'ai seulement eu besoin de mettre "+ PEPPER" (PEPPER i
 
 ### 6. Corriger les requêtes existantes afin de prévenir l'injection SQL
 
-Cela a été simple, car j'avais déjà vu un exemple de Query Builder dans un exercice précédent et j'ai su le recréer.
+Cette étape consistait à modifier les requêtes SQL à l'aide de "Query Builder", afin d'empêcher les injections SQL  
+Cela a été simple, car j'avais déjà vu un exemple de Query Builder dans un exercice précédent et j'ai su le recréer
 
 ### 7. Implémenter l'utilisation d'un token JWT
 
+Pour cela, j'ai créé un jeton JWT contenant l'identifiant utilisateur, le rôle et le nom d'utilisateur (pour pouvoir modifier l'en-tête) et j'ai fait en sorte que chaque route nécessaire utilise le middleware  
 Ça m'a pris du temps, car j'ai fait une partie pendant un cours et l'autre le cours d'après, sans me rappeler comment fonctionnaient les tokens JWT
 
-## Ajouter les rôles administrateur et utilisateur dans le JWT et protéger les routes d'administration
+### 8. Ajouter les rôles administrateur et utilisateur dans le JWT et protéger les routes d'administration
 
+Ceci a été fait en vérifiant que le rôle de l'utilisateur actuel == 'admin'  
 Cela ne m'a pas pris autant de temps, car j'ai décidé de l'implémenter en même temps que le point précédent
 
 ## Activitées Faciles
