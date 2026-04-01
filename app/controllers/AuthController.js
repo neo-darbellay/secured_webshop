@@ -183,7 +183,6 @@ module.exports = {
   // POST /api/auth/refresh
   // ----------------------------------------------------------
   refresh: (req, res) => {
-    console.log(req);
     if (req.cookies.refreshToken) {
       // Vérification du refresh token
       const refreshToken = req.cookies.refreshToken;

@@ -4,7 +4,14 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 
+const https = require("https");
+const fs = require("fs");
+
 const app = express();
+const options = {
+  key: fs.readFileSync("key.pem"), // Path to your private key
+  cert: fs.readFileSync("cert.pem"), // Path to your certificate
+};
 
 // Middleware pour parser le corps des requêtes
 app.use(express.json());
@@ -49,6 +56,7 @@ app.get("/admin", [verifyToken, requireAdmin], (req, res) =>
 );
 
 // Démarrage du serveur
-app.listen(8080, () => {
-  console.log("Serveur démarré sur http://localhost:8080");
+const server = https.createServer(options, app);
+server.listen(8080, () => {
+  console.log("Serveur démarré sur https://localhost:8080");
 });

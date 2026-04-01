@@ -56,6 +56,11 @@ Cela ne m'a pas pris autant de temps, car j'ai décidé de l'implémenter en mê
 
 ## Activitées Faciles
 
+### 9. Mettre en place le HTTPS
+
+Pour faire cela, j'ai créé un nouveau certificat SSL, et utilisé HTTPS pour créer un serveur  
+Cela ne m'a pas pris beaucoup de temps, car j'avais déjà configuré mon propre serveur HTTPS
+
 ### 11. Limiter la durée du token JWT actuel et implémenter un refresh token pour rester connecté sur une longue période
 
 Ceci a été fait en créant un token nommé "refreshToken" et fait en sorte qu'il dure 7 jours comparé au "token", qui dure maintenant 15 minutes. Après cela, il fallait simplement faire en sorte qu'il puisse se refresh en créant une fonction qui s'appelle avec "/api/auth/refresh"  
