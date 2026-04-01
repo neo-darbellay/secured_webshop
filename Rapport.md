@@ -37,7 +37,7 @@ Ceci a été fait pendant l'étape précédente, car j'ai utilisé argon2.
 
 ### 5. Ajouter un poivre
 
-Cela a été simple, car j'ai seulement eu besoin de mettre "+ PEPPER" (PEPPER ici étant la valeur du .env) à chaque fois qu'AuthController utilisait "password"
+Cela a été simple, car j'ai seulement eu besoin de mettre "+ PEPPER" (PEPPER ici étant la valeur du .env) à chaque fois qu'AuthController utilisait `password`
 
 ### 6. Corriger les requêtes existantes afin de prévenir l'injection SQL
 
@@ -63,8 +63,20 @@ Cela ne m'a pas pris beaucoup de temps, car j'avais déjà configuré mon propre
 
 ### 11. Limiter la durée du token JWT actuel et implémenter un refresh token pour rester connecté sur une longue période
 
-Ceci a été fait en créant un token nommé "refreshToken" et fait en sorte qu'il dure 7 jours comparé au "token", qui dure maintenant 15 minutes. Après cela, il fallait simplement faire en sorte qu'il puisse se refresh en créant une fonction qui s'appelle avec "/api/auth/refresh"  
-Cela m'a pris du temps, car je voulais essayer voir si ça marchait avec bruno (j'ai eu quelques soucis avec les cookies) et ai remarqué qu'il me manquait le package "cookie-parser".
+Ceci a été fait en créant un token nommé `refreshToken` et fait en sorte qu'il dure 7 jours comparé au `token`, qui dure maintenant 15 minutes. Après cela, il fallait simplement faire en sorte qu'il puisse se refresh en créant une fonction qui s'appelle avec `/api/auth/refresh`  
+Cela m'a pris du temps, car je voulais essayer voir si ça marchait avec bruno (j'ai eu quelques soucis avec les cookies) et ai remarqué qu'il me manquait le package `cookie-parser`.
+
+### 12. Effectuer un audit des dépendances NPM, corriger et documenter la correction
+
+Pour ce faire, j'ai tout d'abord fait la commande `npm audit`, puis `npm audit fix` après tout avoir lu
+Cela m'a pris
+
+#### Documentation des correction
+
+- body-parser était vulnérable aux attaques DOS
+- brace-expansion aussi
+- braces avait une consomption de données non controllé
+- cookie avait une mauvaise gestion des données, qui pouvait causer des soucis
 
 ## Activitées Moyennes
 
