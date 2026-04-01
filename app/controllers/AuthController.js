@@ -50,11 +50,20 @@ module.exports = {
         }
 
         // Créer un JWT d'authentication
-        const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
-          expiresIn: "1h",
+        const token = jwt.sign(
+          { userId: user.id, role: user.role, username: user.username },
+          process.env.JWT_SECRET,
+          {
+            expiresIn: "1h",
+          },
+        );
+        res.cookie("token", token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "lax",
+          maxAge: 60 * 60 * 1000, // 60 minutes en milisecondes (J'aurai pu mettre 3600000 ms, mais c'est moins lisible)
         });
-
-        res.json({ token: token });
+        res.json({ message: "Connexion réussie" });
       } catch (err) {
         return res.status(500).json({ error: err.message });
       }
@@ -86,5 +95,31 @@ module.exports = {
     } catch (err) {
       return res.status(500).json({ error: err.message });
     }
+  },
+
+  // ----------------------------------------------------------
+  // POST /api/auth/logout
+  // ----------------------------------------------------------
+  logout: (req, res) => {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+    });
+    res.json({ message: "Déconnecté" });
+  },
+
+  // ----------------------------------------------------------
+  // GET /api/auth/me
+  // ----------------------------------------------------------
+  me: (req, res) => {
+    if (!req.user) {
+      return res.status(401).json({ error: "Non authentifié" });
+    }
+    res.json({
+      userId: req.user.userId,
+      role: req.user.role,
+      username: req.user.username,
+    });
   },
 };

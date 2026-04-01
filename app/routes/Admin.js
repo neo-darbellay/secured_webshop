@@ -1,7 +1,8 @@
-const express    = require('express');
-const router     = express.Router();
-const controller = require('../controllers/AdminController');
+const express = require("express");
+const controller = require("../controllers/AdminController");
+const { verifyToken, requireAdmin } = require("../middleware/auth");
 
-router.get('/users', controller.getUsers);
+const router = express.Router();
+router.get("/users", [verifyToken, requireAdmin], controller.getUsers);
 
 module.exports = router;

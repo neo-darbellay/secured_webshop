@@ -45,6 +45,12 @@ Cela a été simple, car j'avais déjà vu un exemple de Query Builder dans un e
 
 ### 7. Implémenter l'utilisation d'un token JWT
 
+Ça m'a pris du temps, car j'ai fait une partie pendant un cours et l'autre le cours d'après, sans me rappeler comment fonctionnaient les tokens JWT
+
+## Ajouter les rôles administrateur et utilisateur dans le JWT et protéger les routes d'administration
+
+Cela ne m'a pas pris autant de temps, car j'ai décidé de l'implémenter en même temps que le point précédent
+
 ## Activitées Faciles
 
 ## Activitées Moyennes

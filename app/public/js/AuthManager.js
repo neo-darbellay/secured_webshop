@@ -19,12 +19,7 @@ const handleLogin = (event) => {
   })
     .then((response) => {
       if (response.ok) {
-        // Ajouter le JWT d'authentication en tant que cookie
-        if (response.json() && response.json().token) {
-          document.cookie = `token=${response.json().token}; path=/; secure; HttpOnly`;
-        }
-
-        window.location.href = "/";
+        window.location.href = "/profile";
       } else {
         alert("Email ou mot de passe incorrect.");
       }
