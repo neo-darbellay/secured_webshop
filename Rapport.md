@@ -68,15 +68,22 @@ Cela m'a pris du temps, car je voulais essayer voir si ça marchait avec bruno (
 
 ### 12. Effectuer un audit des dépendances NPM, corriger et documenter la correction
 
-Pour ce faire, j'ai tout d'abord fait la commande `npm audit`, puis `npm audit fix` après tout avoir lu
-Cela m'a pris
+Pour ce faire, j'ai tout d'abord fait la commande `npm audit`, analysé les soucis et les ai documentés, puis ai lancé `npm audit fix` pour réparer les soucis  
+Cela m'a pris un peu de temps pour comprendre les vulnérabilités et les traduire en français
 
-#### Documentation des correction
+#### Problèmes de vulnérabilités
+
+Voici, en grande lignes, les soucis de l'audit
 
 - body-parser était vulnérable aux attaques DOS
 - brace-expansion aussi
 - braces avait une consomption de données non controllé
 - cookie avait une mauvaise gestion des données, qui pouvait causer des soucis
+- minimatch était vulnérable aux attaques ReDOS, un type de DOS causé par les Regular Expression
+- path-to-regexp aussi
+- picomatch avait une erreur de Regular Expression qui faisait que les attaquers pouvaient insérer des noms de méthodes et elles s'éxécuteraient
+- qs était vulnérable au DOS à plusieurs points
+- send avait une vulnérabilité qui pouvait causer du XSS
 
 ## Activitées Moyennes
 
