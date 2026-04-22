@@ -61,6 +61,11 @@ Cela ne m'a pas pris autant de temps, car j'ai décidé de l'implémenter en mê
 Pour faire cela, j'ai créé un nouveau certificat SSL, et utilisé HTTPS pour créer un serveur  
 Cela ne m'a pas pris beaucoup de temps, car j'avais déjà configuré mon propre serveur HTTPS
 
+### 10. Mettre en place une politique de mot de passe fort (minuscules, majuscule, longueur minimale, caractères spéciaux) avec l'affichage d'un indicateur de force
+
+Pour faire cela, j'ai utilisé "Joi", pour pouvoir vérifier toutes le nom, email et mot de passe de l'utilisateur, ainsi que du RegEx pour vérifier la force du mot de passe  
+Cela m'a pris du temps, car j'ai rencontré un soucis d'affichage de mot de passe
+
 ### 11. Limiter la durée du token JWT actuel et implémenter un refresh token pour rester connecté sur une longue période
 
 Ceci a été fait en créant un token nommé `refreshToken` et fait en sorte qu'il dure 7 jours comparé au `token`, qui dure maintenant 15 minutes. Après cela, il fallait simplement faire en sorte qu'il puisse se refresh en créant une fonction qui s'appelle avec `/api/auth/refresh`  

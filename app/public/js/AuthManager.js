@@ -2,6 +2,9 @@ const handleLogin = (event) => {
   // Empêche le formulaire de se soumettre normalement
   event.preventDefault();
 
+  // Récupère l'élément du message d'erreur
+  const errorDiv = document.getElementById("error-message");
+
   // Récupère les données du formulaire
   const formData = new FormData(event.target);
 
@@ -17,21 +20,89 @@ const handleLogin = (event) => {
     },
     body: JSON.stringify({ email, password }),
   })
-    .then((response) => {
+    .then(async (response) => {
       if (response.ok) {
         window.location.href = "/profile";
       } else {
-        alert("Email ou mot de passe incorrect.");
+        const result = await response.json();
+
+        // Affiche le(s) message(s) d'erreur dans la div erreur
+        errorDiv.innerText = result.errors?.join("\n") || result.error;
+        errorDiv.style.display = "block";
       }
     })
     .catch((error) => {
-      console.error(error);
-      alert("Erreur serveur");
+      // Affiche un message d'erreur générique en cas de problème de connexion
+      errorDiv.innerText =
+        "Une erreur est survenue lors de la connexion. Veuillez réessayer.";
+      errorDiv.style.display = "block";
+      console.error("Erreur lors de la connexion :", error);
     });
 };
 
+function getPasswordStrength(password) {
+  let score = 0;
+  if (password.length > 12) score += 1;
+  if (/[a-z]/.test(password)) score += 1;
+  if (/[A-Z]/.test(password)) score += 1;
+  if (/\d/.test(password)) score += 1;
+  if (/[!#$%&?* "'()\[\]{}<>@\^\-_=+\/\\|;:,\.]/.test(password)) score += 1;
+  return score;
+}
+
+function updatePasswordStrength(password) {
+  const strengthBar = document.getElementById("password-strength-bar");
+  const strengthText = document.getElementById("password-strength-text");
+  if (!strengthBar || !strengthText) return;
+
+  const score = getPasswordStrength(password);
+  let label = "Très faible";
+  let color = "#d32f2f";
+  let width = "20%";
+
+  if (password.length === 0) {
+    label = "rien saisi";
+    color = "#777";
+    width = "0%";
+  } else if (password.length < 12) {
+    label = "Trop court";
+    color = "#d32f2f";
+    width = "20%";
+  } else if (score <= 2) {
+    label = "Faible";
+    color = "#f57c00";
+    width = "40%";
+  } else if (score === 3) {
+    label = "Moyen";
+    color = "#fbc02d";
+    width = "60%";
+  } else if (score === 4) {
+    label = "Bon";
+    color = "#388e3c";
+    width = "80%";
+  } else {
+    label = "Très bon";
+    color = "#2e7d32";
+    width = "100%";
+  }
+
+  strengthBar.style.width = width;
+  strengthBar.style.backgroundColor = color;
+  if (label === "rien saisi") {
+    strengthText.style.display = "none";
+    strengthBar.style.display = "none";
+  } else {
+    strengthText.style.display = "block";
+    strengthBar.style.display = "block";
+    strengthText.textContent = `Force du mot de passe : ${label}`;
+  }
+}
+
 const handleRegister = (event) => {
   event.preventDefault();
+
+  // Récupère l'élément du message d'erreur
+  const errorDiv = document.getElementById("error-message");
 
   const formData = new FormData(event.target);
   const username = formData.get("username");
@@ -49,13 +120,19 @@ const handleRegister = (event) => {
       if (response.ok) {
         window.location.href = "/profile";
       } else {
-        const error = await response.json();
-        alert("Erreur lors de l'inscription : " + error.error);
+        const result = await response.json();
+
+        // Affiche le(s) message(s) d'erreur dans la div erreur
+        errorDiv.innerText = result.errors?.join("\n") || result.error;
+        errorDiv.style.display = "block";
       }
     })
     .catch((error) => {
-      console.error(error);
-      alert("Erreur serveur : " + error.message);
+      // Affiche un message d'erreur générique en cas de problème d'inscription
+      console.error("Erreur lors de l'inscription :", error);
+      errorDiv.innerText =
+        "Une erreur est survenue lors de l'inscription. Veuillez réessayer.";
+      errorDiv.style.display = "block";
     });
 };
 
@@ -67,5 +144,11 @@ if (loginForm) {
 }
 
 if (registerForm) {
+  const passwordInput = document.getElementById("password");
+  if (passwordInput) {
+    passwordInput.addEventListener("input", (event) => {
+      updatePasswordStrength(event.target.value);
+    });
+  }
   registerForm.addEventListener("submit", handleRegister);
 }

@@ -1,6 +1,7 @@
 const argon2 = require("argon2");
 const db = require("../config/db");
 const jwt = require("jsonwebtoken");
+const { registerValidator } = require("../validators/auth");
 
 const pepper = process.env.PEPPER;
 
@@ -92,8 +93,13 @@ module.exports = {
   register: async (req, res) => {
     const { username, email, password } = req.body;
 
-    if (!username || !email || !password) {
-      return res.status(400).json({ error: "Champs requis" });
+    // Validation des données d'inscription
+    const { error } = registerValidator(req.body);
+
+    if (error) {
+      return res
+        .status(400)
+        .json({ errors: error.details.map((err) => err.message) });
     }
 
     try {
