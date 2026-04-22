@@ -90,6 +90,13 @@ Voici, en grande lignes, les soucis de l'audit
 - qs était vulnérable au DOS à plusieurs points
 - send avait une vulnérabilité qui pouvait causer du XSS
 
+### 13. Vérifier la résistance de vos hash avec l'outil John The Ripper et aux rainbow tables, via un export de la BDD
+
+Pour faire ceci, j'ai utilisé une ancienne VM Ubuntu, qui devait bien sûr recevoir plusieurs MAJ avant que je puisse faire quoi que ce soit, pour installer John The Ripper, mais cela n'était que le début de mes soucis.  
+John The Ripper par lui même ne supporte pas les mot de passes encodé en Argon2, et j'ai dû installer john-jumbo pour que cela marche (ça m'a pris du temps pour comprendre cela)  
+A part cela, j'ai vu qu'il n'a pas déchiffré mes mot de passes de la DB grace au sel et poivre.
+Cela m'a pris du temps pour les raisons cités ci-dessus
+
 ## Activitées Moyennes
 
 ## Activitées Difficiles
