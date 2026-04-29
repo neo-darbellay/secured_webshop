@@ -11,3 +11,4 @@
 .env
 app/key.pem
 app/cert.pem
+/app/public

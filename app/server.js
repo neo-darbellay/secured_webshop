@@ -1,11 +1,15 @@
-require("dotenv").config({ path: "../.env" });
+import "dotenv/config.js";
 
-const express = require("express");
-const path = require("path");
-const cookieParser = require("cookie-parser");
+import express from "express";
+import path from "path";
+import cookieParser from "cookie-parser";
 
-const https = require("https");
-const fs = require("fs");
+import https from "https";
+import fs from "fs";
+
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const options = {
@@ -24,9 +28,9 @@ app.use(express.static(path.join(__dirname, "public")));
 // ---------------------------------------------------------------
 // Routes API (retournent du JSON)
 // ---------------------------------------------------------------
-const authRoute = require("./routes/Auth");
-const profileRoute = require("./routes/Profile");
-const adminRoute = require("./routes/Admin");
+import authRoute from "./routes/Auth.js";
+import profileRoute from "./routes/Profile.js";
+import adminRoute from "./routes/Admin.js";
 
 app.use("/api/auth", authRoute);
 app.use("/api/profile", profileRoute);
@@ -35,9 +39,9 @@ app.use("/api/admin", adminRoute);
 // ---------------------------------------------------------------
 // Routes pages (retournent du HTML)
 // ---------------------------------------------------------------
-const homeRoute = require("./routes/Home");
-const userRoute = require("./routes/User");
-const { verifyToken, requireAdmin } = require("./middleware/auth");
+import homeRoute from "./routes/Home.js";
+import userRoute from "./routes/User.js";
+import { verifyToken, requireAdmin } from "./middleware/auth.js";
 
 app.use("/", homeRoute);
 app.use("/user", userRoute);

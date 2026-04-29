@@ -98,7 +98,7 @@ function updatePasswordStrength(password) {
   }
 }
 
-const handleRegister = (event) => {
+const handleRegister = async (event) => {
   event.preventDefault();
 
   // Récupère l'élément du message d'erreur
@@ -108,19 +108,36 @@ const handleRegister = (event) => {
   const username = formData.get("username");
   const email = formData.get("email");
   const password = formData.get("password");
+  const location = formData.get("location");
+  const image = formData.get("image");
 
   fetch("/api/auth/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ username, email, password }),
+    body: JSON.stringify({ username, email, password, location }),
   })
-    .then(async (response) => {
-      if (response.ok) {
+    .then(async (registerResponse) => {
+      // Upload l'image si elle existe
+      if (registerResponse.ok) {
+        if (image && image.size > 0) {
+          const photoData = new FormData();
+          photoData.append("photo", image);
+
+          await fetch("/api/profile/photo", {
+            method: "POST",
+            body: photoData,
+          }).then(async (photoResponse) => {
+            if (!photoResponse.ok) {
+              console.error("Erreur lors de l'upload de la photo");
+            }
+          });
+        }
+
         window.location.href = "/profile";
       } else {
-        const result = await response.json();
+        const result = await registerResponse.json();
 
         // Affiche le(s) message(s) d'erreur dans la div erreur
         errorDiv.innerText = result.errors?.join("\n") || result.error;

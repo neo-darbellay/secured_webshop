@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Un magasin en ligne sécurisé avec Express.js, MySQL et Multer pour la gestion des produits et des images.",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "start": "nodemon server.js -L"
   },

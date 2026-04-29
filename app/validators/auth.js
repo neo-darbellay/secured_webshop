@@ -1,6 +1,6 @@
-const Joi = require("joi");
+import Joi from "joi";
 
-const registerValidator = (data) => {
+export const registerValidator = (data) => {
   // Schéma de validation pour l'inscription
   const registerSchema = Joi.object({
     username: Joi.string().min(3).max(30).required().messages({
@@ -15,11 +15,7 @@ const registerValidator = (data) => {
     }),
     password: Joi.string()
       .min(12)
-      .pattern(
-        new RegExp(
-          "^.*(?=.{12,})(?=.*[a-zA-Z])(?=.*\\d)(?=.*[!#$%&?* \"'()\[\]{}<>@\^\-_=+\/\\|;:,\.]).*$",
-        ),
-      )
+      .pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{12,}$/)
       .required()
       .messages({
         "string.min": "Le mot de passe doit comporter au moins 12 caractères",
@@ -31,8 +27,4 @@ const registerValidator = (data) => {
 
   //  abortEarly = false pour récupérer toutes les erreurs de validation au lieu de s'arrêter à la première
   return registerSchema.validate(data, { abortEarly: false });
-};
-
-module.exports = {
-  registerValidator,
 };

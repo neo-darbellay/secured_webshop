@@ -2,10 +2,10 @@
 // Middleware d'authentification
 // =============================================================
 
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 
 // Middleware pour vérifier que l'utilisateur est authentifié
-function verifyToken(req, res, next) {
+export function verifyToken(req, res, next) {
   const authHeader = req.headers.authorization;
   let token = authHeader?.startsWith("Bearer ")
     ? authHeader.slice(7)
@@ -37,7 +37,7 @@ function verifyToken(req, res, next) {
 }
 
 // Middleware pour vérifier que l'utilisateur est admin ou non
-function requireAdmin(req, res, next) {
+export function requireAdmin(req, res, next) {
   if (!req.user) {
     return res.status(401).json({ error: "Non authentifié" });
   }
@@ -46,8 +46,3 @@ function requireAdmin(req, res, next) {
   }
   next();
 }
-
-module.exports = {
-  verifyToken,
-  requireAdmin,
-};
