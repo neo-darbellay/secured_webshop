@@ -104,6 +104,10 @@ Ceci était assez simple, il m'a fallut rechercher toutes les exceptions, logger
 
 ## Activitées Moyennes
 
+### 15. Limiter le nombre de tentatives de login (example : 5 essai / minute / IP) pour contrer le brute-force
+
+Pour faire cela, j'ai installé le package `express-rate-limit`, puis je l'ai setup pour la route "login"
+
 ## Activitées Difficiles
 
 ## Conclusion
