@@ -26,6 +26,7 @@ Celle-ci redirige ensuite l'utilisateur vers la page d'accueil si l'authentifica
 ### 2. Implémenter une page d'inscription en frontend
 
 La procédure de cette étape s'est déroulée comme la précédente, à la différence que j'ai déplacé les fonctions dans un fichier JavaScript utilisé par les deux pages.
+J'ai du retourner sur ce point plus tard, car j'ai oublié de mettre les champs adresse et photo de profil
 
 ### 3. Remplacer les mots de passes en clair dans la base par un hash
 
