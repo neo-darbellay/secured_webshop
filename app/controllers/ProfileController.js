@@ -4,7 +4,7 @@ function get(req, res) {
   const userId = req.user?.userId;
 
   if (!userId) {
-    return res.status(401).json({ error: "Utilisateur non authentifié" });
+    return res.status(401).json({ error: "Non authentifié" });
   }
 
   // Récupération des données de l'utilisateur
@@ -27,7 +27,7 @@ function update(req, res) {
   const userId = req.user?.userId;
 
   if (!userId) {
-    return res.status(401).json({ error: "Utilisateur non authentifié" });
+    return res.status(401).json({ error: "Non authentifié" });
   }
 
   const { address } = req.body;
@@ -48,7 +48,7 @@ function update(req, res) {
 function uploadPhoto(req, res) {
   const userId = req.user?.userId;
   if (!userId) {
-    return res.status(401).json({ error: "Utilisateur non authentifié" });
+    return res.status(401).json({ error: "Non authentifié" });
   }
 
   if (!req.file) {

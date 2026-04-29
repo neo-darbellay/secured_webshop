@@ -22,7 +22,13 @@ function login(req, res) {
 
   db.query(query, [email], async (err, results) => {
     if (err) {
-      return res.status(500).json({ error: err.message, query: query });
+      // Log l'erreur sur le serveur pour le debug, mais ne pas envoyer les détails au client
+      console.error("Erreur lors de la connexion:", err);
+
+      return res.status(500).json({
+        error:
+          "Une erreur est survenue lors de la connexion. Veuillez réessayer plus tard.",
+      });
     }
 
     if (results.length === 0) {
@@ -76,7 +82,13 @@ function login(req, res) {
 
       res.json({ message: "Connexion réussie" });
     } catch (err) {
-      return res.status(500).json({ error: err.message });
+      // Log l'erreur sur le serveur pour le debug, mais ne pas envoyer les détails au client
+      console.error("Erreur lors de la vérification du mot de passe:", err);
+
+      return res.status(500).json({
+        error:
+          "Une erreur est survenue lors de la connexion. Veuillez réessayer plus tard.",
+      });
     }
   });
 }
@@ -107,7 +119,13 @@ async function register(req, res) {
       [username, email, hashedPassword, location],
       (err, results) => {
         if (err) {
-          return res.status(500).json({ error: err.message, query: query });
+          // Log l'erreur sur le serveur pour le debug, mais ne pas envoyer les détails au client
+          console.error("Erreur lors de la connexion:", err);
+
+          return res.status(500).json({
+            error:
+              "Une erreur est survenue lors de la connexion. Veuillez réessayer plus tard.",
+          });
         }
 
         // Récupérer l'ID de l'utilisateur inséré
@@ -147,7 +165,13 @@ async function register(req, res) {
       },
     );
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    // Log l'erreur sur le serveur pour le debug, mais ne pas envoyer les détails au client
+    console.error("Erreur lors de la vérification du mot de passe:", err);
+
+    return res.status(500).json({
+      error:
+        "Une erreur est survenue lors de la connexion. Veuillez réessayer plus tard.",
+    });
   }
 }
 

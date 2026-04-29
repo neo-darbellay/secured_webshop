@@ -95,8 +95,12 @@ Voici, en grande lignes, les soucis de l'audit
 
 Pour faire ceci, j'ai utilisé une ancienne VM Ubuntu, qui devait bien sûr recevoir plusieurs MAJ avant que je puisse faire quoi que ce soit, pour installer John The Ripper, mais cela n'était que le début de mes soucis.  
 John The Ripper par lui même ne supporte pas les mot de passes encodé en Argon2, et j'ai dû installer john-jumbo pour que cela marche (ça m'a pris du temps pour comprendre cela)  
-A part cela, j'ai vu qu'il n'a pas déchiffré mes mot de passes de la DB grace au sel et poivre.
+A part cela, j'ai vu qu'il n'a pas déchiffré mes mot de passes de la DB grace au sel et poivre  
 Cela m'a pris du temps pour les raisons cités ci-dessus
+
+### 14. Gérer les exceptions afin de ne pas retourner trop d'information en cas d'erreur
+
+Ceci était assez simple, il m'a fallut rechercher toutes les exceptions, logger les erreurs sur le serveur au lieu du client et renvoyer une erreur compréhensible au client
 
 ## Activitées Moyennes
 

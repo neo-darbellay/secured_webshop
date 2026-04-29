@@ -24,7 +24,8 @@ export function verifyToken(req, res, next) {
   }
 
   if (!token) {
-    return res.status(401).json({ error: "Token manquant" });
+    // Ne pas trop donner d'information à l'utilisateur
+    return res.status(401).json({ error: "Non authentifié" });
   }
 
   try {
@@ -32,7 +33,7 @@ export function verifyToken(req, res, next) {
     req.user = payload;
     next();
   } catch (err) {
-    return res.status(401).json({ error: "Token invalide ou expiré" });
+    return res.status(401).json({ error: "Non authentifié" });
   }
 }
 

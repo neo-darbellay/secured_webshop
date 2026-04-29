@@ -34,7 +34,8 @@ const handleLogin = (event) => {
     .catch((error) => {
       // Affiche un message d'erreur générique en cas de problème de connexion
       errorDiv.innerText =
-        "Une erreur est survenue lors de la connexion. Veuillez réessayer.";
+        error.message ||
+        "Une erreur est survenue lors de la connexion. Veuillez réessayer plus tard.";
       errorDiv.style.display = "block";
       console.error("Erreur lors de la connexion :", error);
     });
