@@ -108,6 +108,10 @@ Ceci était assez simple, il m'a fallut rechercher toutes les exceptions, logger
 
 Pour faire cela, j'ai installé le package `express-rate-limit`, puis je l'ai setup pour la route "login"
 
+### 16. Implémenter un verrouillage de compte après N tentatives de connexion échouées, enregistrer les tentatives en BDD et prévoir un mécanisme de déblocage
+
+a
+
 ## Activitées Difficiles
 
 ## Conclusion

@@ -4,47 +4,50 @@
 -- ATTENTION : Ce fichier contient volontairement des failles
 -- de sécurité à corriger dans le cadre du projet.
 -- =============================================================
-
 SET NAMES utf8mb4;
 
-CREATE DATABASE IF NOT EXISTS webshop
-    CHARACTER SET utf8mb4
-    COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS webshop CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 USE webshop;
 
 -- ---------------------------------------------------------------
 -- Table users
 -- ---------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS users (
-    id         INT AUTO_INCREMENT PRIMARY KEY,
-    username   VARCHAR(50)  NOT NULL,
-    email      VARCHAR(100) NOT NULL UNIQUE,
-    password   VARCHAR(255) NOT NULL,
-    role       VARCHAR(20)  NOT NULL DEFAULT 'user',
-    address    VARCHAR(255),
-    photo_path VARCHAR(255)
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(20) NOT NULL DEFAULT 'user',
+    address VARCHAR(255),
+    photo_path VARCHAR(255),
+
+    attempts TINYINT UNSIGNED NOT NULL DEFAULT 0,
+    last_attempt_at DATETIME NULL
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------
 -- Table products
 -- ---------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS products (
-    id          INT AUTO_INCREMENT PRIMARY KEY,
-    name        VARCHAR(100) NOT NULL,
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
     description TEXT,
-    price       DECIMAL(10, 2) NOT NULL,
-    image_url   VARCHAR(500)
+    price DECIMAL(10, 2) NOT NULL,
+    image_url VARCHAR(500)
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------
--- Données de départ
+-- Données de départ (les comptes admin et alice ont été retiré, car ne peuvent pas fonctionner à cause des MDP hashés)
 -- ---------------------------------------------------------------
-INSERT INTO users (username, email, password, role, address) VALUES
-    ('admin',  'admin@webshop.com', 'admin123',  'admin', '1 Rue de la Paix, 1000 Lausanne'),
-    ('alice',  'alice@webshop.com', 'password1', 'user',  '42 Avenue des Alpes, 1200 Genève');
-
-INSERT INTO products (name, description, price, image_url) VALUES
-    (
+INSERT INTO
+    products (
+        name,
+        description,
+        price,
+        image_url
+    )
+VALUES (
         'Casque Audio Pro X1',
         'Un casque confortable et moderne, parfait pour demarrer une vitrine produit.',
         89.00,

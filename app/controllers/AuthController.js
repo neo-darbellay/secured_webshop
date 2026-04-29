@@ -37,6 +37,31 @@ function login(req, res) {
 
     const user = results[0];
 
+    // Vérifie que le compte n'est pas bloqué
+    if (user.attempts >= 5 && user.last_attempt_at) {
+      let lockedUntil = new Date(user.last_attempt_at);
+      lockedUntil.setMinutes(lockedUntil.getMinutes() + 15);
+
+      if (lockedUntil > new Date()) {
+        return res.status(403).json({
+          error:
+            "Ce compte est temporairement bloqué. Veuillez réessayer plus tard.",
+        });
+      } else {
+        // Il n'est plus bloqué, débloquer
+        const resetLockQuery = `UPDATE users SET attempts = 0, last_attempt_at = NULL WHERE email = ?`;
+
+        db.query(resetLockQuery, [email], (err) => {
+          if (err) {
+            console.error("Erreur du débloquage d'un compte:", err);
+          }
+        });
+
+        user.attempts = 0;
+        user.last_attempt_at = null;
+      }
+    }
+
     // Vérifier le mot de passe avec argon2
     try {
       const passwordMatches = await verify(
@@ -45,10 +70,32 @@ function login(req, res) {
       );
 
       if (!passwordMatches) {
+        // Ajoute 1 à la colonne "attempts"
+        const incrementQuery = `
+          UPDATE users
+          SET attempts = attempts + 1,
+              last_attempt_at = NOW()
+          WHERE email = ? AND attempts < 5
+        `;
+
+        db.query(incrementQuery, [email], (err) => {
+          if (err) {
+            console.error("Erreur d'incrémentation d'essai de login:", err);
+          }
+        });
+
         return res
           .status(401)
           .json({ error: "Email ou mot de passe incorrect" });
       }
+
+      // Reset attempts après connexion réussie
+      const resetAttemptsQuery = `
+        UPDATE users 
+        SET attempts = 0, last_attempt_at = NULL 
+        WHERE email = ?
+      `;
+      db.query(resetAttemptsQuery, [email]);
 
       // Créer un JWT d'authentication
       const token = jwt.sign(
@@ -63,7 +110,7 @@ function login(req, res) {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "lax",
-        maxAge: 15 * 60 * 1000, // 15 minutes en milisecondes (J'aurai pu mettre 3600000 ms, mais c'est moins lisible)
+        maxAge: 15 * 60 * 1000,
       });
 
       // Créer un refresh token
@@ -77,7 +124,7 @@ function login(req, res) {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "lax",
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 jours en milisecondes (J * H * M * S * MS)
+        maxAge: 7 * 24 * 60 * 60 * 1000,
       });
 
       res.json({ message: "Connexion réussie" });
@@ -119,12 +166,9 @@ async function register(req, res) {
       [username, email, hashedPassword, location],
       (err, results) => {
         if (err) {
-          // Log l'erreur sur le serveur pour le debug, mais ne pas envoyer les détails au client
-          console.error("Erreur lors de la connexion:", err);
-
           return res.status(500).json({
             error:
-              "Une erreur est survenue lors de la connexion. Veuillez réessayer plus tard.",
+              "Cet email est déjà en utilisation. Veuillez réessayer plus tard.",
           });
         }
 
@@ -170,7 +214,7 @@ async function register(req, res) {
 
     return res.status(500).json({
       error:
-        "Une erreur est survenue lors de la connexion. Veuillez réessayer plus tard.",
+        "Une erreur est survenue lors de la création de compte. Veuillez réessayer plus tard.",
     });
   }
 }
