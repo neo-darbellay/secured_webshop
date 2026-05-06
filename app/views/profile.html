@@ -108,7 +108,13 @@
 
         const photoContainer = document.getElementById("photo-container");
         if (user.photo_path) {
-          photoContainer.innerHTML = `<img class="profile-photo" src="${user.photo_path}" alt="Photo de profil">`;
+          const img = document.createElement("img");
+          img.className = "profile-photo";
+          img.alt = "Photo de profil";
+          img.src = user.photo_path
+
+          photoContainer.innerHTML = "";
+          photoContainer.appendChild(img);
         }
       }
 

@@ -118,6 +118,16 @@ Le serveur MySQL m'a causé quelques soucis avec les dates, car la timezone n'é
 C'était assez simple à réaliser, j'ai converti le champ adresse de VARCHAR en VARBINARY, puis utiliser AES_ENCRYPT pour l'upload, et AES_DECRYPT (en plus de conversion en string) pour récupérer les données.  
 Cela m'a pris du temps, car au début, j'ai utilisé une variable de session et fait en sorte que la table sql, en utilisant un TRIGGER encryptait par défaut les données, mais j'ai remarqué quelques soucis avec cette logique, et ai à la place modifié les requêtes.
 
+### 19. Protection XSS: identifier une faille XSS dans l'application et faire en sorte de la corriger
+
+Voici les failles que j'ai trouvé, une briève explication ainsi que leur corrections respectives :
+
+| Faille                                                          | Explication                                                  | Correction                                   |
+| :-------------------------------------------------------------- | :----------------------------------------------------------- | :------------------------------------------- |
+| Chemin de photo de profil vulnérable depuis le backend          | Modification de `photo_path` sur le backend n'était pas safe | Création de l'image hors de l'innerHTML      |
+| Le username n'a pas de validation, et XSS possible via la nav   | l'utilisateur peut avoir un username de n'importe quoi       | Modification vérification username et nav    |
+| Route admin vulnérable à cause de la structure de la table user | La table user utilisait innerHtml uniquement                 | Modification du code de création de la table |
+
 ## Activitées Difficiles
 
 ## Conclusion

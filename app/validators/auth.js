@@ -3,12 +3,20 @@ import Joi from "joi";
 export const registerValidator = (data) => {
   // Schéma de validation pour l'inscription
   const registerSchema = Joi.object({
-    username: Joi.string().min(3).max(30).required().messages({
-      "string.min": "Le nom d'utilisateur doit comporter au moins 3 caractères",
-      "string.max":
-        "Le nom d'utilisateur doit comporter au maximum 30 caractères",
-      "string.empty": "Le nom d'utilisateur est requis",
-    }),
+    username: Joi.string()
+      .min(3)
+      .max(30)
+      .pattern(/^[A-Za-z0-9]+(?:[-_][A-Za-z0-9]+)*$/)
+      .required()
+      .messages({
+        "string.min":
+          "Le nom d'utilisateur doit comporter au moins 3 caractères",
+        "string.max":
+          "Le nom d'utilisateur doit comporter au maximum 30 caractères",
+        "string.empty": "Le nom d'utilisateur est requis",
+        "string.pattern.base":
+          "Le nom d'utilisateur ne peut contenir que des lettres, chiffres, tirets ou underscores, sans être au début/fin ni consécutifs",
+      }),
     email: Joi.string().email().required().messages({
       "string.email": "Veuillez fournir une adresse email valide",
       "string.empty": "L'adresse email est requise",

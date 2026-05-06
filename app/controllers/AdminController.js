@@ -8,6 +8,13 @@ export function getUsers(_req, res) {
       if (err) {
         return res.status(500).json({ error: "Erreur serveur" });
       }
+
+      results.forEach((user) => {
+        if (user.address) {
+          user.address = user.address.toString("utf8");
+        }
+      });
+
       res.json(results);
     },
   );

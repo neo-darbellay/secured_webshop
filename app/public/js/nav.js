@@ -70,25 +70,66 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   const updateNav = () => {
-    nav.innerHTML = `
-        <header class="topbar">
-            <div class="container">
-                <div class="brand">Secure Shop</div>
-                <nav class="menu">
-                    <a href="/">Accueil</a>
-                    ${isAdmin && loggedIn ? '<a href="/admin">Admin</a>' : ""}
-                    ${loggedIn ? `<a href="/profile">Profil (${userName})</a><a href="#" id="logout-link">Déconnexion</a>` : '<a href="/login">Connexion</a><a href="/register">Inscription</a>'}
-                </nav>
-            </div>
-        </header>
-    `;
+    nav.innerHTML = "";
 
-    const logoutLink = document.getElementById("logout-link");
-    if (logoutLink)
+    const header = document.createElement("header");
+    header.className = "topbar";
+
+    const container = document.createElement("div");
+    container.className = "container";
+
+    const brand = document.createElement("div");
+    brand.className = "brand";
+    brand.innerText = "Secure Shop";
+
+    const menu = document.createElement("nav");
+    menu.className = "menu";
+
+    const homeLink = document.createElement("a");
+    homeLink.href = "/";
+    homeLink.innerText = "Accueil";
+
+    menu.appendChild(homeLink);
+
+    if (isAdmin && loggedIn) {
+      const adminLink = document.createElement("a");
+      adminLink.href = "/admin";
+      adminLink.innerText = "Admin";
+      menu.appendChild(adminLink);
+    }
+
+    if (loggedIn) {
+      const profileLink = document.createElement("a");
+      profileLink.href = "/profile";
+      profileLink.innerText = `Profil (${userName})`;
+
+      const logoutLink = document.createElement("a");
+      logoutLink.href = "#";
+      logoutLink.innerText = "Déconnexion";
       logoutLink.addEventListener("click", (event) => {
         event.preventDefault();
         handleLogout();
       });
+
+      menu.appendChild(profileLink);
+      menu.appendChild(logoutLink);
+    } else {
+      const loginLink = document.createElement("a");
+      loginLink.href = "/login";
+      loginLink.innerText = "Connexion";
+
+      const registerLink = document.createElement("a");
+      registerLink.href = "/register";
+      registerLink.innerText = "Inscription";
+
+      menu.appendChild(loginLink);
+      menu.appendChild(registerLink);
+    }
+
+    container.appendChild(brand);
+    container.appendChild(menu);
+    header.appendChild(container);
+    nav.appendChild(header);
   };
 
   checkAuth();
