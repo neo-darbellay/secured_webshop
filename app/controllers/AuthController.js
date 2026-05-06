@@ -165,11 +165,11 @@ async function register(req, res) {
   try {
     const hashedPassword = await hashPassword(password);
 
-    const query = `INSERT INTO users (username, email, password, address) VALUES (?, ?, ?, ?)`;
+    const query = `INSERT INTO users (username, email, password, address) VALUES (?, ?, ?, AES_ENCRYPT(?, ?))`;
 
     db.query(
       query,
-      [username, email, hashedPassword, location],
+      [username, email, hashedPassword, location, process.env.ENCRYPTION_KEY],
       (err, results) => {
         if (err) {
           return res.status(500).json({

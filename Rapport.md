@@ -26,7 +26,7 @@ Celle-ci redirige ensuite l'utilisateur vers la page d'accueil si l'authentifica
 ### 2. Implémenter une page d'inscription en frontend
 
 La procédure de cette étape s'est déroulée comme la précédente, à la différence que j'ai déplacé les fonctions dans un fichier JavaScript utilisé par les deux pages.
-J'ai du retourner sur ce point plus tard, car j'ai oublié de mettre les champs adresse et photo de profil
+J'ai du retourner sur ce point plus tard, car j'ai oublié de mettre les champs adresse et photo de profil.
 
 ### 3. Remplacer les mots de passes en clair dans la base par un hash
 
@@ -38,48 +38,48 @@ Ceci a été fait pendant l'étape précédente, car j'ai utilisé argon2.
 
 ### 5. Ajouter un poivre
 
-Cela a été simple, car j'ai seulement eu besoin de mettre "+ PEPPER" (PEPPER ici étant la valeur du .env) à chaque fois qu'AuthController utilisait `password`
+Cela a été simple, car j'ai seulement eu besoin de mettre "+ PEPPER" (PEPPER ici étant la valeur du .env) à chaque fois qu'AuthController utilisait `password`.
 
 ### 6. Corriger les requêtes existantes afin de prévenir l'injection SQL
 
-Cette étape consistait à modifier les requêtes SQL à l'aide de "Query Builder", afin d'empêcher les injections SQL  
-Cela a été simple, car j'avais déjà vu un exemple de Query Builder dans un exercice précédent et j'ai su le recréer
+Cette étape consistait à modifier les requêtes SQL à l'aide de "Query Builder", afin d'empêcher les injections SQL.  
+Cela a été simple, car j'avais déjà vu un exemple de Query Builder dans un exercice précédent et j'ai su le recréer.
 
 ### 7. Implémenter l'utilisation d'un token JWT
 
-Pour cela, j'ai créé un jeton JWT contenant l'identifiant utilisateur, le rôle et le nom d'utilisateur (pour pouvoir modifier l'en-tête) et j'ai fait en sorte que chaque route nécessaire utilise le middleware  
-Ça m'a pris du temps, car j'ai fait une partie pendant un cours et l'autre le cours d'après, sans me rappeler comment fonctionnaient les tokens JWT
+Pour cela, j'ai créé un jeton JWT contenant l'identifiant utilisateur, le rôle et le nom d'utilisateur (pour pouvoir modifier l'en-tête) et j'ai fait en sorte que chaque route nécessaire utilise le middleware.  
+Ça m'a pris du temps, car j'ai fait une partie pendant un cours et l'autre le cours d'après, sans me rappeler comment fonctionnaient les tokens JWT.
 
 ### 8. Ajouter les rôles administrateur et utilisateur dans le JWT et protéger les routes d'administration
 
-Ceci a été fait en vérifiant que le rôle de l'utilisateur actuel == 'admin'  
-Cela ne m'a pas pris autant de temps, car j'ai décidé de l'implémenter en même temps que le point précédent
+Ceci a été fait en vérifiant que le rôle de l'utilisateur actuel == 'admin'.  
+Cela ne m'a pas pris autant de temps, car j'ai décidé de l'implémenter en même temps que le point précédent.
 
 ## Activitées Faciles
 
 ### 9. Mettre en place le HTTPS
 
-Pour faire cela, j'ai créé un nouveau certificat SSL, et utilisé HTTPS pour créer un serveur  
-Cela ne m'a pas pris beaucoup de temps, car j'avais déjà configuré mon propre serveur HTTPS
+Pour faire cela, j'ai créé un nouveau certificat SSL, et utilisé HTTPS pour créer un serveur.  
+Cela ne m'a pas pris beaucoup de temps, car j'avais déjà configuré mon propre serveur HTTPS.
 
 ### 10. Mettre en place une politique de mot de passe fort (minuscules, majuscule, longueur minimale, caractères spéciaux) avec l'affichage d'un indicateur de force
 
-Pour faire cela, j'ai utilisé "Joi", pour pouvoir vérifier toutes le nom, email et mot de passe de l'utilisateur, ainsi que du RegEx pour vérifier la force du mot de passe  
-Cela m'a pris du temps, car j'ai rencontré un soucis d'affichage de mot de passe
+Pour faire cela, j'ai utilisé "Joi", pour pouvoir vérifier toutes le nom, email et mot de passe de l'utilisateur, ainsi que du RegEx pour vérifier la force du mot de passe.  
+Cela m'a pris du temps, car j'ai rencontré un soucis d'affichage de mot de passe.
 
 ### 11. Limiter la durée du token JWT actuel et implémenter un refresh token pour rester connecté sur une longue période
 
-Ceci a été fait en créant un token nommé `refreshToken` et fait en sorte qu'il dure 7 jours comparé au `token`, qui dure maintenant 15 minutes. Après cela, il fallait simplement faire en sorte qu'il puisse se refresh en créant une fonction qui s'appelle avec `/api/auth/refresh`  
+Ceci a été fait en créant un token nommé `refreshToken` et fait en sorte qu'il dure 7 jours comparé au `token`, qui dure maintenant 15 minutes. Après cela, il fallait simplement faire en sorte qu'il puisse se refresh en créant une fonction qui s'appelle avec `/api/auth/refresh`.  
 Cela m'a pris du temps, car je voulais essayer voir si ça marchait avec bruno (j'ai eu quelques soucis avec les cookies) et ai remarqué qu'il me manquait le package `cookie-parser`.
 
 ### 12. Effectuer un audit des dépendances NPM, corriger et documenter la correction
 
-Pour ce faire, j'ai tout d'abord fait la commande `npm audit`, analysé les soucis et les ai documentés, puis ai lancé `npm audit fix` pour réparer les soucis  
-Cela m'a pris un peu de temps pour comprendre les vulnérabilités et les traduire en français
+Pour ce faire, j'ai tout d'abord fait la commande `npm audit`, analysé les soucis et les ai documentés, puis ai lancé `npm audit fix` pour réparer les soucis.  
+Cela m'a pris un peu de temps pour comprendre les vulnérabilités et les traduire en français.
 
 #### Problèmes de vulnérabilités
 
-Voici, en grande lignes, les soucis de l'audit
+Voici, en grande lignes, les soucis de l'audit :
 
 - body-parser était vulnérable aux attaques DOS
 - brace-expansion aussi
@@ -94,23 +94,29 @@ Voici, en grande lignes, les soucis de l'audit
 ### 13. Vérifier la résistance de vos hash avec l'outil John The Ripper et aux rainbow tables, via un export de la BDD
 
 Pour faire ceci, j'ai utilisé une ancienne VM Ubuntu, qui devait bien sûr recevoir plusieurs MAJ avant que je puisse faire quoi que ce soit, pour installer John The Ripper, mais cela n'était que le début de mes soucis.  
-John The Ripper par lui même ne supporte pas les mot de passes encodé en Argon2, et j'ai dû installer john-jumbo pour que cela marche (ça m'a pris du temps pour comprendre cela)  
-A part cela, j'ai vu qu'il n'a pas déchiffré mes mot de passes de la DB grace au sel et poivre  
-Cela m'a pris du temps pour les raisons cités ci-dessus
+John The Ripper par lui même ne supporte pas les mot de passes encodé en Argon2, et j'ai dû installer john-jumbo pour que cela marche (ça m'a pris du temps pour comprendre cela).  
+À part cela, j'ai vu qu'il n'a pas déchiffré mes mot de passes de la DB grace au sel et poivre.  
+Cela m'a pris du temps pour les raisons cités ci-dessus.
 
 ### 14. Gérer les exceptions afin de ne pas retourner trop d'information en cas d'erreur
 
-Ceci était assez simple, il m'a fallut rechercher toutes les exceptions, logger les erreurs sur le serveur au lieu du client et renvoyer une erreur compréhensible au client
+Ceci était assez simple, il m'a fallut rechercher toutes les exceptions, logger les erreurs sur le serveur au lieu du client et renvoyer une erreur compréhensible au client.
 
 ## Activitées Moyennes
 
 ### 15. Limiter le nombre de tentatives de login (example : 5 essai / minute / IP) pour contrer le brute-force
 
-Pour faire cela, j'ai installé le package `express-rate-limit`, puis je l'ai setup pour la route "login"
+Pour faire cela, j'ai installé le package `express-rate-limit`, puis je l'ai setup pour la route "login".
 
 ### 16. Implémenter un verrouillage de compte après N tentatives de connexion échouées, enregistrer les tentatives en BDD et prévoir un mécanisme de déblocage
 
-a
+Pour ce point, j'ai repris le système de tentative de login et fait en sorte que chaque connexion échouées incrémentait les "attempts" de 1 (ce nombre se met à 0 après) et si "attempts" est à 5, on vérifie quand était lee dernier essai, et si cela ne fait pas 15 minutes (ou plus), on bloque le compte et personne ne peut y accéder.  
+Le serveur MySQL m'a causé quelques soucis avec les dates, car la timezone n'était pas la bonne et cela m'a pris du temps pour comprendre le soucis.
+
+### 18. Chiffrement des données sensibles (addresse, etc.) dans la base
+
+C'était assez simple à réaliser, j'ai converti le champ adresse de VARCHAR en VARBINARY, puis utiliser AES_ENCRYPT pour l'upload, et AES_DECRYPT (en plus de conversion en string) pour récupérer les données.  
+Cela m'a pris du temps, car au début, j'ai utilisé une variable de session et fait en sorte que la table sql, en utilisant un TRIGGER encryptait par défaut les données, mais j'ai remarqué quelques soucis avec cette logique, et ai à la place modifié les requêtes.
 
 ## Activitées Difficiles
 

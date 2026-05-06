@@ -19,9 +19,8 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     role VARCHAR(20) NOT NULL DEFAULT 'user',
-    address VARCHAR(255),
+    address VARBINARY(255),
     photo_path VARCHAR(255),
-
     attempts TINYINT UNSIGNED NOT NULL DEFAULT 0,
     last_attempt_at DATETIME NULL
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
