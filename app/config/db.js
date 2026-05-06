@@ -16,6 +16,10 @@ connection.connect((err) => {
     console.error("Erreur de connexion à la base de données :");
     throw err;
   }
+
+  // Modifier la timezone de MySQL
+  connection.query(`SET time_zone = '+02:00'`);
+
   console.log(
     `Connecté à la BDD ${connection.config.database} sur ${connection.config.host} en tant que ${connection.config.user}`,
   );

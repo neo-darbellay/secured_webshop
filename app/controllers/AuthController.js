@@ -38,16 +38,22 @@ function login(req, res) {
     const user = results[0];
 
     // Vérifie que le compte n'est pas bloqué
-    if (user.attempts >= 5 && user.last_attempt_at) {
-      let lockedUntil = new Date(user.last_attempt_at);
-      lockedUntil.setMinutes(lockedUntil.getMinutes() + 15);
+    if (user.last_attempt_at) {
+      const lockedUntil = new Date(
+        new Date(user.last_attempt_at).setMinutes(
+          new Date(user.last_attempt_at).getMinutes() + 15,
+        ),
+      );
 
-      if (lockedUntil > new Date()) {
+      const now = new Date();
+
+      // Vérifie si le compte est bloqué
+      if (user.attempts >= 5 && lockedUntil > now) {
         return res.status(403).json({
           error:
             "Ce compte est temporairement bloqué. Veuillez réessayer plus tard.",
         });
-      } else {
+      } else if (lockedUntil < now) {
         // Il n'est plus bloqué, débloquer
         const resetLockQuery = `UPDATE users SET attempts = 0, last_attempt_at = NULL WHERE email = ?`;
 
