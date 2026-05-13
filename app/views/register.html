@@ -36,6 +36,8 @@
 
         <div class="login-card">
           <form id="register-form" action="/api/auth/register" method="POST">
+            <input type="hidden" id="csrfTokenInput" name="_csrf" />
+
             <div id="error-message" style="color: red; display: none"></div>
             <div class="form-group">
               <label for="username">

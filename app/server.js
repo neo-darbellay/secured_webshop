@@ -3,6 +3,8 @@ import "dotenv/config.js";
 import express from "express";
 import path from "path";
 import cookieParser from "cookie-parser";
+import session from "express-session";
+import csurf from "csurf";
 
 import https from "https";
 import fs from "fs";
@@ -22,6 +24,24 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+// Session pour csurf
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+    },
+  }),
+);
+
+const csurfProtection = csurf();
+
+app.use(csurfProtection);
+
 // Fichiers statiques (CSS, images, uploads...)
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -35,6 +55,12 @@ import adminRoute from "./routes/Admin.js";
 app.use("/api/auth", authRoute);
 app.use("/api/profile", profileRoute);
 app.use("/api/admin", adminRoute);
+
+app.use((req, res, next) => {
+  // skip CSRF
+  if (req.path === "/api/csrf-token") return next();
+  return csurfProtection(req, res, next);
+});
 
 // ---------------------------------------------------------------
 // Routes pages (retournent du HTML)
@@ -61,6 +87,6 @@ app.get("/admin", [verifyToken, requireAdmin], (req, res) =>
 
 // Démarrage du serveur
 const server = https.createServer(options, app);
-server.listen(8080, () => {
+server.listen(8080, "0.0.0.0", () => {
   console.log("Serveur démarré sur https://localhost:8080");
 });

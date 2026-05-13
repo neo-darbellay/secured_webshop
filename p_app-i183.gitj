@@ -37,6 +37,16 @@
       "duration": 10,
       "status": "Done",
       "author": "neo-darbellay"
+    },
+    {
+      "id": "177acefc-a635-4394-adeb-03104597e5a3",
+      "type": "commitless",
+      "name": "chore(80%): Fait les 80% avec le professeur",
+      "description": "",
+      "date": "2026-05-13T07:11:00.000Z",
+      "duration": 11,
+      "status": "Done",
+      "author": "neo-darbellay"
     }
   ]
 }

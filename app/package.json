@@ -10,9 +10,11 @@
   "dependencies": {
     "argon2": "^0.44.0",
     "cookie-parser": "^1.4.7",
+    "csurf": "^1.11.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.1",
     "express-rate-limit": "^8.4.1",
+    "express-session": "^1.19.0",
     "joi": "^18.1.2",
     "jsonwebtoken": "^9.0.3",
     "multer": "^1.4.5-lts.1",

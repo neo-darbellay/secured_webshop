@@ -1,12 +1,26 @@
+let csrfToken = null;
+
+async function initCsrf() {
+  const res = await fetch("/api/csrf-token");
+  const data = await res.json();
+  csrfToken = data.csrfToken;
+}
+
 // Fonction pour rafraîchir le token automatiquement
 async function refreshToken() {
   try {
     // Envoyer une requête AVEC les cookies
     const res = await fetch("/api/auth/refresh", {
       method: "POST",
+      credentials: "include",
+      headers: {
+        "CSRF-Token": csrfToken,
+      },
     });
 
     if (res.ok) {
+      await initCsrf();
+
       return true;
     } else {
       return false;
@@ -40,6 +54,8 @@ async function fetchWithRefresh(url, options = {}) {
 // Navigation commune à toutes les pages
 // Pour modifier le menu, éditer uniquement ce fichier
 document.addEventListener("DOMContentLoaded", async () => {
+  await initCsrf();
+
   const nav = document.getElementById("topbar");
   if (!nav) return;
   let loggedIn = false;
@@ -49,12 +65,20 @@ document.addEventListener("DOMContentLoaded", async () => {
   const handleLogout = async () => {
     await fetch("/api/auth/logout", {
       method: "POST",
+      credentials: "include",
+      headers: {
+        "CSRF-Token": csrfToken,
+      },
     });
     window.location.href = "/login";
   };
 
   async function checkAuth() {
-    const res = await fetchWithRefresh("/api/auth/me");
+    const res = await fetchWithRefresh("/api/auth/me", {
+      headers: {
+        "CSRF-Token": csrfToken,
+      },
+    });
 
     if (res.ok) {
       const user = await res.json();

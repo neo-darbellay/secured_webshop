@@ -135,4 +135,15 @@ Au début, j'ai aussi voulu changer l'appel de la db de "mysql2" à "mysql2/prom
 
 ## Activitées Difficiles
 
+### 25. Scanner l'application avec OWASP ZAP, récupérer le rapport de scan et corriger au moins 3 alertes
+
+Tout d'abord, j'ai dû créer une VM Windows 11, lui mettre docker + node + visual studio code + cmder + OWASP ZAP, ce qui m'a pris du temps.  
+Ensuite, j'ai réalisé que docker ne peut pas tourner sur une VM simple, donc j'ai du trouver un moyen de faire du "port forwarding" pour faire en sorte que le serveur tourne sur l'HOST et que la VM puisse avoir accès au serveur.
+
+Voici la liste des alertes que ZAP m'a donné :
+| Niveau de danger | Type                             | Solution prise                          |
+| :--------------- | :------------------------------- | :-------------------------------------- |
+| Haute priorité   | SQL Injection                    | Rien a faire, c'était une fausse alerte |
+| Moyenne priorité | Absence of Anti-CSRF Tokens (x2) |
+
 ## Conclusion

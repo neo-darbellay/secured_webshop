@@ -1,3 +1,20 @@
+let csrfToken = null;
+
+async function loadCsrfToken() {
+  const res = await fetch("/api/csrf-token");
+  const data = await res.json();
+  csrfToken = data.csrfToken;
+
+  // Si l'on détecte le csrfTokenInput, on l'ajoute automatiquement
+  const input = document.getElementById("csrfTokenInput");
+  if (input) input.value = csrfToken;
+}
+
+// Récupère le csrfToken s'il y en a un
+document.addEventListener("DOMContentLoaded", async () => {
+  await loadCsrfToken();
+});
+
 const handleLogin = (event) => {
   // Empêche le formulaire de se soumettre normalement
   event.preventDefault();
@@ -15,8 +32,10 @@ const handleLogin = (event) => {
   // Faire un POST sur /api/auth/login avec les données du formulaire
   fetch("/api/auth/login", {
     method: "POST",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
+      "CSRF-Token": csrfToken,
     },
     body: JSON.stringify({ email, password }),
   })
@@ -114,8 +133,10 @@ const handleRegister = async (event) => {
 
   fetch("/api/auth/register", {
     method: "POST",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
+      "CSRF-Token": csrfToken,
     },
     body: JSON.stringify({ username, email, password, location }),
   })
@@ -128,6 +149,10 @@ const handleRegister = async (event) => {
 
           await fetch("/api/profile/photo", {
             method: "POST",
+            credentials: "include",
+            headers: {
+              "CSRF-Token": csrfToken,
+            },
             body: photoData,
           }).then(async (photoResponse) => {
             if (!photoResponse.ok) {
