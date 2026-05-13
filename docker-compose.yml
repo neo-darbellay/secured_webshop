@@ -8,6 +8,8 @@ services:
   db:
     image: mysql:8.0.30
     container_name: db_container
+    env_file:
+      - ./app/.env
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: db_user

@@ -128,6 +128,11 @@ Voici les failles que j'ai trouvé, une briève explication ainsi que leur corre
 | Le username n'a pas de validation, et XSS possible via la nav   | l'utilisateur peut avoir un username de n'importe quoi       | Modification vérification username et nav    |
 | Route admin vulnérable à cause de la structure de la table user | La table user utilisait innerHtml uniquement                 | Modification du code de création de la table |
 
+### 20. Mettre en place un principe de moindre privilège sur la BDD, créer un utilisateur spécifique qui sera employé par les scripts
+
+J'ai réalisé ceci en ajoutant in fichier init.sh à l'intérieur de app/db/init et fait en sorte que le docker-compose.yml a accès au fichier .env de l'application, pour créer le compte.  
+Au début, j'ai aussi voulu changer l'appel de la db de "mysql2" à "mysql2/promise", mais cela a fait plus de mal que de bien, donc j'ai abandonné cette idée.
+
 ## Activitées Difficiles
 
 ## Conclusion
