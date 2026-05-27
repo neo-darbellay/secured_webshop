@@ -135,6 +135,11 @@ Au début, j'ai aussi voulu changer l'appel de la db de "mysql2" à "mysql2/prom
 
 ## Activitées Difficiles
 
+### 21. Implémenter une protection CSRF sur un formulaire du site
+
+J'ai été "forcé" à faire cette activitée, car j'ai décidé de commencer l'activité 25, qui m'a demandé des tokens CSRF.
+Pour cela, j'ai utilisé le module `csurf` et `express-session`.
+
 ### 25. Scanner l'application avec OWASP ZAP, récupérer le rapport de scan et corriger au moins 3 alertes
 
 Tout d'abord, j'ai dû créer une VM Windows 11, lui mettre docker + node + visual studio code + cmder + OWASP ZAP, ce qui m'a pris du temps.  
@@ -144,6 +149,6 @@ Voici la liste des alertes que ZAP m'a donné :
 | Niveau de danger | Type                             | Solution prise                          |
 | :--------------- | :------------------------------- | :-------------------------------------- |
 | Haute priorité   | SQL Injection                    | Rien a faire, c'était une fausse alerte |
-| Moyenne priorité | Absence of Anti-CSRF Tokens (x2) |
+| Moyenne priorité | Absence of Anti-CSRF Tokens (x2) | Pour cela, j'ai du                      |
 
 ## Conclusion
