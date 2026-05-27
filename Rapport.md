@@ -153,3 +153,7 @@ Voici la liste des alertes que ZAP m'a donné :
 | Moyenne priorité | Content Security Policy (CSP) Header Not Set (x4) | J'ai ajouté un Content-Security-Policy header |
 
 ## Conclusion
+
+J'ai réussi à obtenir 30 des 41 points totaux (15 points pour avoir un Acquis) et tout fonctionne comme il le faut.
+Ce projet était un défi que j'ai apprécié, même si j'ai parfois rencontré des difficultés.
+Si c'était à refaire, je planifierais en premier lieu les tâches à effectuer, au lieu d'y aller à l'aveuglette.
