@@ -40,6 +40,24 @@ app.use(
 
 const csurfProtection = csurf();
 
+// Content Security Policy (CSP) header - helps mitigate XSS and data injection
+app.use((req, res, next) => {
+  const csp = [
+    "default-src 'self'",
+    "script-src 'self'",
+    "style-src 'self' 'unsafe-inline'",
+    "img-src 'self' https: data:",
+    "connect-src 'self' https:",
+    "font-src 'self' data:",
+    "frame-ancestors 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+  ].join("; ");
+
+  res.setHeader("Content-Security-Policy", csp);
+  next();
+});
+
 app.use(csurfProtection);
 
 // Fichiers statiques (CSS, images, uploads...)

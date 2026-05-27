@@ -146,9 +146,10 @@ Tout d'abord, j'ai dû créer une VM Windows 11, lui mettre docker + node + visu
 Ensuite, j'ai réalisé que docker ne peut pas tourner sur une VM simple, donc j'ai du trouver un moyen de faire du "port forwarding" pour faire en sorte que le serveur tourne sur l'HOST et que la VM puisse avoir accès au serveur.
 
 Voici la liste des alertes que ZAP m'a donné :
-| Niveau de danger | Type                             | Solution prise                          |
-| :--------------- | :------------------------------- | :-------------------------------------- |
-| Haute priorité   | SQL Injection                    | Rien a faire, c'était une fausse alerte |
-| Moyenne priorité | Absence of Anti-CSRF Tokens (x2) | Pour cela, j'ai du                      |
+| Niveau de danger | Type                                              | Solution prise                                |
+| :--------------- | :------------------------------------------------ | :-------------------------------------------- |
+| Haute priorité   | SQL Injection                                     | Rien a faire, c'était une fausse alerte       |
+| Moyenne priorité | Absence of Anti-CSRF Tokens (x2)                  | Pour cela, j'ai du faire l'étape 21           |
+| Moyenne priorité | Content Security Policy (CSP) Header Not Set (x4) | J'ai ajouté un Content-Security-Policy header |
 
 ## Conclusion

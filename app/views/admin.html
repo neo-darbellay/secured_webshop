@@ -47,47 +47,6 @@
     </footer>
 
     <script src="/js/nav.js"></script>
-    <script>
-      fetch("/api/admin/users")
-        .then((r) => r.json())
-        .then((users) => {
-          const tbody = document.getElementById("user-table-body");
-          tbody.innerHTML = "";
-
-          users.forEach((user) => {
-            const row = document.createElement("tr");
-
-            const idField = document.createElement("td");
-            idField.innerText = user.id;
-
-            const usernameField = document.createElement("td");
-            usernameField.innerText = user.username;
-
-            const emailField = document.createElement("td");
-            emailField.innerText = user.email;
-
-            const badgeField = document.createElement("td");
-            const span = document.createElement("span");
-            span.className = `badge-${String(user.role).replace(/[^a-z0-9_-]/gi, "")}`;
-            span.innerText = user.role;
-            badgeField.appendChild(span);
-
-            const addressField = document.createElement("td");
-            addressField.innerText = user.address || "-";
-
-            row.appendChild(idField);
-            row.appendChild(usernameField);
-            row.appendChild(emailField);
-            row.appendChild(badgeField);
-            row.appendChild(addressField);
-
-            tbody.appendChild(row);
-          });
-        })
-        .catch(() => {
-          document.getElementById("user-table-body").innerHTML =
-            '<tr><td colspan="5">Erreur lors du chargement</td></tr>';
-        });
-    </script>
+    <script src="/js/admin.js"></script>
   </body>
 </html>
