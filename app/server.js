@@ -62,6 +62,9 @@ app.use((req, res, next) => {
   return csurfProtection(req, res, next);
 });
 
+app.get("/api/csrf-token", (req, res) => {
+  res.json({ csrfToken: req.csrfToken() });
+});
 // ---------------------------------------------------------------
 // Routes pages (retournent du HTML)
 // ---------------------------------------------------------------

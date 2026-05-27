@@ -1,5 +1,3 @@
-let csrfToken = null;
-
 async function loadCsrfToken() {
   const res = await fetch("/api/csrf-token");
   const data = await res.json();

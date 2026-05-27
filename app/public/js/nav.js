@@ -74,19 +74,26 @@ document.addEventListener("DOMContentLoaded", async () => {
   };
 
   async function checkAuth() {
-    const res = await fetchWithRefresh("/api/auth/me", {
-      headers: {
-        "CSRF-Token": csrfToken,
-      },
-    });
+    try {
+      const res = await fetch("/api/auth/me", {
+        credentials: "include",
+        headers: {
+          "CSRF-Token": csrfToken,
+        },
+      });
 
-    if (res.ok) {
-      const user = await res.json();
-      loggedIn = true;
-      isAdmin = user.role === "admin";
-      userName = user.username;
-      updateNav();
-    } else {
+      if (res.ok) {
+        const user = await res.json();
+        loggedIn = true;
+        isAdmin = user.role === "admin";
+        userName = user.username;
+        updateNav();
+      } else {
+        loggedIn = false;
+        isAdmin = false;
+        updateNav();
+      }
+    } catch (err) {
       loggedIn = false;
       isAdmin = false;
       updateNav();
