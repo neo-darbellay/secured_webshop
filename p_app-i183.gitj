@@ -1,9 +1,36 @@
 {
-  "repoUrl": "https://github.com/neo-darbellay/secured_webshop",
   "projectName": "P_App I183",
   "branch": "main",
   "me": "neo-darbellay",
   "journalStartDate": null,
+  "columns": [
+    {
+      "label": "Date",
+      "source": "date",
+      "format": "date",
+      "field": "date"
+    },
+    {
+      "label": "Tâche",
+      "source": "name",
+      "field": "name"
+    },
+    {
+      "label": "Description",
+      "source": "description",
+      "field": "description"
+    },
+    {
+      "label": "Durée",
+      "source": "duration",
+      "format": "duration",
+      "field": "duration"
+    },
+    {
+      "label": "Auteur",
+      "source": "author"
+    }
+  ],
   "exceptions": [
     {
       "id": "58e907ea-8406-4010-bf81-d9f3c0355d4c",
@@ -47,6 +74,15 @@
       "duration": 11,
       "status": "Done",
       "author": "neo-darbellay"
+    },
+    {
+      "id": "3d1e0604-1ce5-4a41-9073-17b1d4f5f6d7",
+      "type": "commitless",
+      "author": "neo-darbellay",
+      "date": "2026-05-27T06:40:00.000Z",
+      "name": "chore(TS2): Révision",
+      "description": "",
+      "duration": 40
     }
   ]
 }
